@@ -1,29 +1,40 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from "react";
+import Usercard from "./Usercard";
 
 const App = () => {
+  const [users, setUsers] = useState([]);
 
-  const [user, setUser] = useState([]);
-
-  useEffect(()=>{
-    const fetchData = async ()=>{
-       const response = await fetch(
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch(
         "https://jsonplaceholder.typicode.com/users"
       );
-      const result = await response.json()
-      // console.log(result)
-      setUser(result);
-    }
+      const result = await response.json();
+      setUsers(result);
+    };
 
-    fetchData()
+    fetchData();
+  }, []);
 
-  }, [])
-
-  
-  
+  const styles = {
+    gridContainer: {
+      display: "grid",
+      gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+      gap: "20px",
+      marginTop: "20px",
+    },
+  };
 
   return (
-    <div>App</div>
-  )
-}
+    <div>
+      <h1>Users App</h1>
+      <div style={styles.gridContainer}>
+        {users.map((user) => (
+          <Usercard key={user.id} user={user} />
+        ))}
+      </div>
+    </div>
+  );
+};
 
-export default App
+export default App;
